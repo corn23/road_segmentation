@@ -66,27 +66,27 @@ x_train,x_valid,y_train,y_valid = train_test_split(img_list,heatmap_list,test_si
 model.fit(x_train,y_train,epochs=2,batch_size=10)
 
 
-plt.subplot(121)
-plt.imshow(np.squeeze(model.predict(x_train[:1]),axis=(0,3)))
-plt.subplot(122)
-plt.imshow(np.squeeze(y_train[:1],axis=(0,3)))
-
+# plt.subplot(121)
+# plt.imshow(np.squeeze(model.predict(x_train[:1]),axis=(0,3)))
+# plt.subplot(122)
+# plt.imshow(np.squeeze(y_train[:1],axis=(0,3)))
+#
 from mask_to_submission import get_patch_label_from_array
-# train acc
-train_acc = []
-valid_acc = []
-for i in range(len(x_train)):
-    pre = np.squeeze(model.predict(x_train[i:i+1]), axis=(0,3))
-    train_patch_pre_label = np.array(list(get_patch_label_from_array(pre,th=0.21)))
-    ground_truth_label = np.array(list(get_patch_label_from_array(y_train[i,:,:,0],th=0.21)))
-    train_acc.append(np.mean(np.equal(train_patch_pre_label[:,2],ground_truth_label[:,2])))
-
-# valid acc
-for i in range(len(x_valid)):
-    pre = np.squeeze(model.predict(x_valid[i:i+1]), axis=(0,3))
-    train_patch_pre_label = np.array(list(get_patch_label_from_array(pre,th=0.21)))
-    ground_truth_label = np.array(list(get_patch_label_from_array(y_valid[i,:,:,0],th=0.21)))
-    train_acc.append(np.mean(np.equal(train_patch_pre_label[:,2],ground_truth_label[:,2])))
+# # train acc
+# train_acc = []
+# valid_acc = []
+# for i in range(len(x_train)):
+#     pre = np.squeeze(model.predict(x_train[i:i+1]), axis=(0,3))
+#     train_patch_pre_label = np.array(list(get_patch_label_from_array(pre,th=0.21)))
+#     ground_truth_label = np.array(list(get_patch_label_from_array(y_train[i,:,:,0],th=0.21)))
+#     train_acc.append(np.mean(np.equal(train_patch_pre_label[:,2],ground_truth_label[:,2])))
+#
+# # valid acc
+# for i in range(len(x_valid)):
+#     pre = np.squeeze(model.predict(x_valid[i:i+1]), axis=(0,3))
+#     train_patch_pre_label = np.array(list(get_patch_label_from_array(pre,th=0.21)))
+#     ground_truth_label = np.array(list(get_patch_label_from_array(y_valid[i,:,:,0],th=0.21)))
+#     train_acc.append(np.mean(np.equal(train_patch_pre_label[:,2],ground_truth_label[:,2])))
 
 # make submission
 from utils import load_test_image
